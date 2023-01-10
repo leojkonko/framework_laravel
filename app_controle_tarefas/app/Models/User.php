@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Notifications\VerificarEmailNotification;
+use App\Models\Tarefa;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -52,6 +53,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendEmailVerificationNotification(){
         //dd('sadna');
         $this->notify(new VerificarEmailNotification($this->name));
+    }
+
+    public function tarefas(){
+        return $this->hasMany('App\Models\Tarefa');
     }
    
 }
