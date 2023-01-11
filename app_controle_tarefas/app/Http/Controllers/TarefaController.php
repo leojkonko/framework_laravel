@@ -8,6 +8,8 @@ use App\Mail\NovaTarefaMail;
 use App\Models\Tarefa;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+//use Barryvdh\DomPDF\Facade;
+use PDF;
 
 class TarefaController extends Controller
 {
@@ -170,5 +172,13 @@ class TarefaController extends Controller
             return 'erro na extensão';
         }
        
+    }
+
+    public function exportar(){
+        $tarefas = auth()->user()->tarefas()->get();
+        $pdf = PDF::loadView('tarefa.pdf', ['tarefas' => $tarefas]);
+        $pdf->setPaper('a4', 'portrait');
+        //return $pdf->download('lista_tarefas.pdf');
+        return $pdf->stream('lista_tarefas.pdf');
     }
 }
